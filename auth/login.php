@@ -10,6 +10,22 @@ if (isset($_POST['login'])) {
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
+
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_name'] = $user['name'];
+        $_SESSION['user_role'] = $user['role'];
+ 
+        if ($user['role'] == 'admin') {
+            header("Location: admin/dashboard.php");
+        } else {
+            header("Location: index.php");
+        }
+        exit();
+    } else {
+        $error = "❌ Invalid Email or Password, Mama!";
+    }
+
     
 }
 
