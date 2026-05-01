@@ -2,6 +2,17 @@
 session_start();
 require_once './config/db.php';
 
+if (isset($_POST['login'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+
+    
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
