@@ -1,6 +1,5 @@
 <?php
 session_start();
-// ১. সিকিউরিটি চেক
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') { 
     header("Location: ../login.php"); 
     exit(); 
@@ -9,12 +8,11 @@ require_once '../config/db.php';
 
 $msg = "";
 
-//delete
 if (isset($_GET['delete_id'])) {
     $delete_id = intval($_GET['delete_id']);
     $delete_sql = "DELETE FROM sub_categories WHERE id = $delete_id";
     if (mysqli_query($db, $delete_sql)) {
-        $msg = "🗑️ Sub-Category removed successfully!";
+        $msg = " Sub-Category removed successfully!";
     }
 }
 
