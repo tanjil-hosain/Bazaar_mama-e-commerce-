@@ -1,51 +1,24 @@
 <?php
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 require_once 'config/db.php';
+if(isset($_POST['registration'])){
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $phone = $_POST['phone'];
 
-$msg = ""; 
-$type = "";
 
-
-if (isset($_SESSION['flash_msg'])) {
-    $msg = $_SESSION['flash_msg'];
-    $type = $_SESSION['flash_type'];
-    
-    
-    unset($_SESSION['flash_msg']);
-    unset($_SESSION['flash_type']);
-}
-
-if (isset($_POST['registration'])) {
-    $name = trim($_POST['name']);
-    $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-    $phone = trim($_POST['phone']);
-
-    try {
-        $stmt = $pdo->prepare("INSERT INTO users (name, email, password, phone, role) VALUES (?, ?, ?, ?, 'user')");
-        if($stmt->execute([$name, $email, $password, $phone])) {
-            
-
-            $_SESSION['flash_msg'] = "🎉 Registration Successful, Mama! Go to Login.";
-            $_SESSION['flash_type'] = "success";
-
-            header("Location:registration.php");
-            exit();
-        }
-    } catch (\PDOException $e) {
-
-        if ($e->getCode() == 23000) {
-            $msg = "❌ Email Already Registered!";
-        } else {
-            $msg = "❌ Something went wrong. Please try again.";
-        }
-        $type = "danger";
+    $hash_password = password_hash($password , PASSWORD_DEFAULT);
+    $sql = "insert into users (name, email,  password, phone ) values ('$name',  '$email', '$hash_password', '$phone')";
+    if (mysqli_query($db, $sql)) {
+        echo "<script>alert('Registration Successful!'); window.location='login.php';</script>";
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($db);
     }
 }
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
