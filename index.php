@@ -34,31 +34,67 @@ $result = mysqli_query($db, $sql);
             while ($p = mysqli_fetch_assoc($result)): 
         ?>
                 <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="card product-card h-100 position-relative">
-                        <span class="product-badge shadow-sm">In Stock: <?= htmlspecialchars($p['stock']) ?></span>
+                    <div class="card product-card h-100 position-relative shadow-sm border-0" style="border-radius: 12px; overflow: hidden; background: #fff;">
                         
+  
                         <a href="product_details.php?id=<?= $p['id'] ?>" class="text-decoration-none">
                             <div class="bg-light d-flex align-items-center justify-content-center" style="height: 240px; overflow:hidden;">
-                                <img src="assets/images/<?= ($p['image']) ?>" class="w-100 h-100" style="object-fit: cover;" alt="Market Product">
+                                <img src="assets/images/<?= htmlspecialchars($p['image']) ?>" class="w-100 h-100" style="object-fit: cover;" alt="<?= htmlspecialchars($p['name']) ?>">
                             </div>
                         </a>
                         
-                        <div class="card-body d-flex flex-column p-4">
-                            <h5 class="fw-bold text-dark mb-1 text-truncate" title="<?= ($p['name']) ?>">
+                        <div class="card-body d-flex flex-column p-3">
+                            <h5 class="fw-bold text-dark mb-1 text-truncate" title="<?= htmlspecialchars($p['name']) ?>">
                                 <a href="product_details.php?id=<?= $p['id'] ?>" class="text-decoration-none text-dark hover-primary">
-                                    <?= ($p['name']) ?>
+                                    <?= htmlspecialchars($p['name']) ?>
                                 </a>
                             </h5>
-                            <p class="text-muted small text-truncate mb-3"><?= ($p['description']) ?></p>
+                            <p class="text-muted small text-truncate mb-3"><?= htmlspecialchars($p['description']) ?></p>
                             
-                            <div class="d-flex justify-content-between align-items-center mt-auto">
+   
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+ 
+                                <?php if(isset($p['stock']) && $p['stock'] > 0): ?>
+                                    <span class="badge bg-success-subtle text-success fw-bold px-2 py-1 rounded-3" style="font-size: 11px;">
+                                        <i class="fa-solid fa-circle-check me-1"></i> In Stock (<?= $p['stock'] ?>)
+                                    </span>
+                                <?php else: ?>
+                                    <span class="badge bg-danger-subtle text-danger fw-bold px-2 py-1 rounded-3" style="font-size: 11px;">
+                                        <i class="fa-solid fa-circle-xmark me-1"></i> Out Of Stock
+                                    </span>
+                                <?php endif; ?>
+
+                                <a href="customer/action_handler.php?add_to_wishlist=<?= $p['id'] ?>" 
+                                   class="text-secondary hover-danger-wishlist" 
+                                   style="font-size: 18px; transition: all 0.2s;" 
+                                   title="Add to Wishlist">
+                                    <i class="fa-regular fa-heart"></i>
+                                </a>
+                            </div>
+
+                            <hr class="text-black-50 my-2">
+
+    
+                            <div class="d-flex justify-content-between align-items-center mt-2">
                                 <div class="d-flex flex-column">
-                                    <small class="text-muted text-uppercase font-monospace" style="font-size: 10px; letter-spacing: 0.5px;">Price</small>
-                                    <span class="text-primary fw-bold fs-4">৳<?= ($p['price']) ?></span>
+                                    <small class="text-muted text-uppercase font-monospace" style="font-size: 9px; letter-spacing: 0.5px;">Price</small>
+                                    <span class="text-primary fw-bold fs-5">৳<?= number_format($p['price'], 2) ?></span>
                                 </div>
-                                <button class="btn btn-modern-primary rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" style="width: 42px; height: 42px;">
-                                    <i class="fa-solid fa-cart-plus"></i>
-                                </button>
+                                
+
+                                <?php if(isset($p['stock']) && $p['stock'] > 0): ?>
+                                    <a href="customer/action_handler.php?add_to_cart=<?= $p['id'] ?>" 
+                                       class="btn btn-primary rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" 
+                                       style="width: 38px; height: 38px;" 
+                                       title="Add to Cart">
+                                        <i class="fa-solid fa-cart-plus"></i>
+                                    </a>
+                                <?php else: ?>
+                                    <button class="btn btn-secondary rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" 
+                                            style="width: 38px; height: 38px;" disabled title="Out of Stock">
+                                        <i class="fa-solid fa-ban"></i>
+                                    </button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -74,6 +110,17 @@ $result = mysqli_query($db, $sql);
         <?php endif; ?>
     </div>
 </div>
+
+
+<style>
+    .hover-danger-wishlist:hover {
+        color: #dc3545 !important;
+        transform: scale(1.15);
+    }
+    .hover-danger-wishlist:hover .fa-heart {
+        font-weight: 900; 
+    }
+</style>
 
 <?php 
 include_once 'includes/footer.php'; 

@@ -41,28 +41,11 @@ $result = mysqli_query($db, $sql);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body { background: #f8fafc; font-family: 'Segoe UI', sans-serif; }
-        .sidebar { height: 100vh; background: #1e293b; color: white; position: fixed; width: 260px; }
-        .sidebar a { color: #cbd5e1; text-decoration: none; display: block; padding: 14px 24px; }
-        .sidebar a:hover, .sidebar a.active { background: #334155; color: #38bdf8; border-left: 4px solid #38bdf8; }
         .main-content { margin-left: 260px; padding: 40px; }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="p-4 text-center" style="background:#0f172a;"><h4 class="text-info fw-bold m-0">BazaarMama</h4></div>
-        <div class="py-3">
-            <a href="dashboard.php"><i class="fa-solid fa-chart-pie me-2"></i> Business Overview</a>
-            <div class="px-4 py-2 text-uppercase text-muted small fw-bold">Configurations</div>
-            <a href="add_product_type.php"><i class="fa-solid fa-layer-group me-2"></i> Product Types</a>
-            <a href="add_category.php"><i class="fa-solid fa-tags me-2"></i> Categories</a>
-            <a href="add_subcategory.php"><i class="fa-solid fa-folder-tree me-2"></i> Sub-Categories</a>
-            <a href="add_unit.php" class="active"><i class="fa-solid fa-scale-balanced me-2"></i> Product Units</a>
-            <div class="px-4 py-2 text-uppercase text-muted small fw-bold">Products</div>
-            <a href="add_product.php"><i class="fa-solid fa-plus me-2"></i> Add Product</a>
-            <a href="manage_products.php"><i class="fa-solid fa-boxes-stacked me-2"></i> Available Products</a>
-        </div>
-    </div>
-
+     <?php include 'sidebar.php'; ?>
     <div class="main-content">
         <div class="container-fluid" style="max-width: 700px; margin-left: 0;">
             <h3 class="fw-bold text-dark mb-4"><i class="fa-solid fa-scale-balanced text-warning me-2"></i>Product Units Setup</h3>

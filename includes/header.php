@@ -93,7 +93,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container">
-            <a class="navbar-brand navbar-brand-custom fs-3" href="index.php">
+            <a class="navbar-brand navbar-brand-custom fs-3" href="/Bazaar_mama/index.php">
                 <i class="fa-solid fa-bag-shopping me-2 text-primary"></i>BAZAAR MAMA
             </a>
             <button class="navbar-collapse-toggle d-lg-none border-0 bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
@@ -102,9 +102,11 @@ if (session_status() === PHP_SESSION_NONE) {
             
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-3">
-                    <li class="nav-item"><a class="nav-link nav-link-custom" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Shop All</a></li>
-                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="/Bazaar_mama/index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="/Bazaar_mama/customer/shop.php">Shop All</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="/Bazaar_mama/customer/wishlist.php">Wishlist</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="/Bazaar_mama/customer/cart.php">Cart</a></li>
+                    
                 </ul>
                 
                 <div class="d-flex align-items-center gap-3">
@@ -115,10 +117,10 @@ if (session_status() === PHP_SESSION_NONE) {
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end border-0 shadow mt-2 rounded-3">
                                 <?php if($_SESSION['user_role'] == 'admin'): ?>
-                                    <li><a class="dropdown-item py-2 fw-semibold" href="admin/dashboard.php"><i class="fa-solid fa-gauge me-2 text-primary"></i>Dashboard</a></li>
+                                    <li><a class="dropdown-item py-2 fw-semibold" href="/Bazaar_mama/admin/dashboard.php"><i class="fa-solid fa-gauge me-2 text-primary"></i>Dashboard</a></li>
                                 <?php endif; ?>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item py-2 text-danger fw-semibold" href="admin/dashboard.php?action=logout"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout</a></li>
+                                <li><a class="dropdown-item py-2 text-danger fw-semibold" href="/Bazaar_mama/dashboard.php?action=logout"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout</a></li>
                             </ul>
                         </div>
                     <?php else: ?>

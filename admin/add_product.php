@@ -15,21 +15,21 @@ $units_result          = mysqli_query($db, "SELECT * FROM product_units");
 $msg = ""; 
 $type = "";
 
-
 if (isset($_POST['add_prdct'])) {
     
-    $name            = ($_POST['name']);
-    $description     = ($_POST['description']);
-    $sku             = ($_POST['sku']);
-    $price           = ($_POST['price']);
-    $stock           = ($_POST['stock']);
-    $category_id     = ($_POST['category_id']);
-    $product_type_id = ($_POST['product_type_id']);
-    $sub_category_id = ($_POST['sub_category_id']);
-    $unit_id         = ($_POST['unit_id']);
+    $name            =  $_POST['name'];
+    $description     =  $_POST['description'];
+    $sku             =  $_POST['sku'];
+    $buying_price    =  $_POST['buying_price']; 
+    $price           =  $_POST['price'];       
+    $stock           =  $_POST['stock'];
+    $category_id     =  $_POST['category_id'];
+    $product_type_id =  $_POST['product_type_id'];
+    $sub_category_id =  $_POST['sub_category_id'];
+    $unit_id         =  $_POST['unit_id'];
     
     //img upload
-    $image = isset($_FILES['image']['name']) ?( $_FILES['image']['name']) : '';
+    $image = isset($_FILES['image']['name']) ? mysqli_real_escape_string($db, $_FILES['image']['name']) : '';
     $target_dir = "../assets/images/";
     
     if (!empty($image)) {
@@ -40,13 +40,12 @@ if (isset($_POST['add_prdct'])) {
         move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
     }
 
-    // prdct insret query
-
-    $sql = "INSERT INTO products (name, description, sku, price, stock, image, category_id, product_type_id, sub_category_id, unit_id) 
-            VALUES ('$name', '$description', '$sku', $price, $stock, '$image', '$category_id', '$product_type_id', '$sub_category_id', '$unit_id')";
+    // পিএইচপি ইনসার্ট কুয়েরি (buying_price সহ আপডেট করা হয়েছে)
+    $sql = "INSERT INTO products (name, description, sku, price, buying_price, stock, image, category_id, product_type_id, sub_category_id, unit_id) 
+            VALUES ('$name', '$description', '$sku', $price, $buying_price, $stock, '$image', '$category_id', '$product_type_id', '$sub_category_id', '$unit_id')";
     
     if (mysqli_query($db, $sql)) {
-        $msg = " Dynamic Product Synced Successfully, Mama!";
+        $msg = "Dynamic Product Synced Successfully with Buying Price, Mama!";
         $type = "success";
     } else {
         $msg = "❌ Insertion Failed! Error: " . mysqli_error($db);
@@ -118,18 +117,28 @@ if (isset($_POST['add_prdct'])) {
                     </div>
 
                     <div class="row g-3 mb-4">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-label fw-semibold text-dark small">SKU (Unique Code)</label>
                             <input type="text" name="sku" class="form-control" placeholder="e.g. BZ-WATCH-02" required>
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold text-dark small">Price (BDT)</label>
+                        
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold text-dark small">Buying Price (BDT)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light text-muted">৳</span>
+                                <input type="number" step="0.01" name="buying_price" class="form-control" placeholder="0.00" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold text-dark small">Selling Price (BDT)</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light text-muted">৳</span>
                                 <input type="number" step="0.01" name="price" class="form-control" placeholder="0.00" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+
+                        <div class="col-md-3">
                             <label class="form-label fw-semibold text-dark small">Stock Volume</label>
                             <input type="number" name="stock" class="form-control" placeholder="0" required>
                         </div>
